@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+    margin:  0!important;
+    padding: 0!important;
+    position: relative;
+}
+.position-ab {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.box-shadow{
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
