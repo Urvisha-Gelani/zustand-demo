@@ -3,15 +3,42 @@
 @tailwind utilities;
 
 #root {
-    margin:  0!important;
-    padding: 0!important;
+    margin: 0 !important;
+    padding: 0 !important;
     position: relative;
+    font-family: "Roboto", sans-serif !important;
 }
+
 .position-ab {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.box-shadow{
+
+.box-shadow {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.page-box-shadow {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.popup-overlay {
+    opacity: 0.4;
+    background: black;
+}
+
+.popup-content {
+    top: 50% !important;
+    left: 50% !important;
+    background: white;
+    transform: translate(-50%, -50%) !important;
+    width: 30%;
+    padding: 12px !important;
+    border-radius: 8px!important;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.popup-arrow {
+    display: none !important;
 }

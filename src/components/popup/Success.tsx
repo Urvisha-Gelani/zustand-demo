@@ -5,7 +5,7 @@ interface Props {
 const Success: React.FC<Props> = (props) =>  {
     return (
         <>
-            <div className='w-full'>
+            <div className='w-full box-shadow'>
                 <div className="rounded-md border-l-4 border-green-500 bg-green-100 p-4 mb-4">
                     <div className="flex items-center justify-between space-x-4">
                         <div>

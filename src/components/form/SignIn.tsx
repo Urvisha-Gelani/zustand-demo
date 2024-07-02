@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import MainPage from './MainPage';
-import { Link } from 'react-router-dom';
+import MainPage from '../users/MainPage';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { LogInSchema } from '../../vallidation/errorsSchema';
 import useAppStore from '../../store/AppStore';
-import Success from '../popup/Success';
+import Spinner from '../Spinner/Spinner';
 
 export interface SigninValues {
     email_or_username: string;
@@ -17,10 +17,10 @@ const initialValues = {
 }
 function SignIn() {
     const signInUser = useAppStore(state => state.signInUser)
-    const signUp_data = useAppStore(state => state.signUp_data)
-    const hide_popUp = useAppStore(state => state.hide_popUp)
+    const signUpData = useAppStore(state => state.signUpData)
+    // const hide_popUp = useAppStore(state => state.hide_popUp)
     const clear_inputErrors = useAppStore(state => state.clear_inputErrors)
-    
+    const navigate = useNavigate()
     const { setValues, setTouched, values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialValues,
         validationSchema: LogInSchema,
@@ -40,19 +40,22 @@ function SignIn() {
         })
     }
     useEffect(() => {
-        if (signUp_data.success) {
+        if (signUpData.success) {
             handleResetForm()
-            setTimeout(() => {
-                hide_popUp()
-            }, 2000);
+            // setTimeout(() => {
+            //     hide_popUp()
+            // }, 2000);
+            navigate("/user")
         }
-    }, [signUp_data]);
+    }, [signUpData]);
     return (
         <>
             <MainPage />
+            <div className=' absolute position-ab opacity-[1] z-[3]'>
+                <Spinner />
+            </div>
             <div className='absolute position-ab'>
                 <div className='w-[430px] h-full bg-white rounded-lg box-shadow'>
-                    {(signUp_data.success) ? <Success sucessfullMsg="Login Success" /> : ""}
                     <div className='px-6 py-4'>
                         <div>
                             <div className='flex flex-wrap items-center'>
@@ -68,7 +71,7 @@ function SignIn() {
                                 <h1 className=' text-3xl font-bold'>Sign in</h1>
                             </div>
                             <div className=''>
-                                {(signUp_data.errors !== undefined) ? <p className='text-red-600 mt-3'>{signUp_data.errors.non_fields_errors}</p> : null}
+                                {(signUpData.errors !== undefined) ? <p className='text-red-600 mt-3'>{signUpData.errors.non_fields_errors}</p> : null}
                                 <form className="mt-8" onSubmit={handleSubmit}>
                                     <div className="space-y-5">
 
@@ -78,6 +81,8 @@ function SignIn() {
                                                 Email address OR Username{' '}
                                             </label>
                                             <div className="mt-2">
+                                                {/* <div className='text-2xl text-gray-400 font-light absolute top-[45%] left-[7%]'>  <CgMail /></div> */}
+
                                                 <input
                                                     className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                     type="text"

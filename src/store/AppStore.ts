@@ -1,7 +1,10 @@
 import { create } from "zustand";
-import { SignupValues } from "../components/users/SignUp";
-import { SigninValues } from "../components/users/SignIn";
-
+import { SignupValues } from "../components/form/SignUp";
+import { SigninValues } from "../components/form/SignIn";
+import { User } from "../interface/interface";
+import axios from "axios";
+// import axios from "axios";
+// console.log( process.env.REACT_APP_HOST);
 interface signupResponseType {
     success?: boolean;
     status?: number;
@@ -11,22 +14,25 @@ interface signupResponseType {
 export interface ErrorType {
     email?: string[];
     username?: string[];
-    non_fields_errors? : string[]
+    non_fields_errors?: string[]
 }
 export interface AppStoreState {
     new_user: string;
     loading: boolean;
-    signUp_data: signupResponseType;
+    signUpData: signupResponseType;
+    user: User | []
     postUser: (data: SignupValues) => Promise<void>;
     clear_inputErrors: () => void;
     hide_popUp: () => void;
     signInUser: (data: SigninValues) => Promise<void>;
+    getUser: () => Promise<void>
 }
 
 const useAppStore = create<AppStoreState>((set) => ({
     new_user: "",
     loading: false,
-    signUp_data: [],
+    signUpData: [],
+    user: [],
     postUser: async (data: SignupValues) => {
         try {
             set({ loading: true });
@@ -38,7 +44,7 @@ const useAppStore = create<AppStoreState>((set) => ({
                 body: JSON.stringify(data),
             })
             const responseData = await response.json();
-            set({ loading: false, signUp_data: responseData });
+            set({ loading: false, signUpData: responseData });
 
         } catch (error) {
             set({ loading: false })
@@ -47,7 +53,7 @@ const useAppStore = create<AppStoreState>((set) => ({
     },
     clear_inputErrors: () => {
         set({
-            signUp_data: {
+            signUpData: {
                 errors: {
                     username: [],
                     email: []
@@ -57,7 +63,7 @@ const useAppStore = create<AppStoreState>((set) => ({
     },
     hide_popUp: () => {
         set({
-            signUp_data: {
+            signUpData: {
                 success: false
             }
         })
@@ -73,14 +79,29 @@ const useAppStore = create<AppStoreState>((set) => ({
                 body: JSON.stringify(data)
             })
             const responseData = await response.json()
-            if(responseData.success) {
-                localStorage.setItem("accessToken" ,responseData.data.token.access )
-                localStorage.setItem("refreshToken" ,responseData.data.token.refresh )
+            if (responseData.success) {
+                localStorage.setItem("accessToken", responseData.data.token.access)
+                localStorage.setItem("refreshToken", responseData.data.token.refresh)
             }
-            set({ loading: false, signUp_data: responseData });
+            set({ loading: false, signUpData: responseData });
         } catch (error) {
             set({ loading: false })
 
+        }
+    },
+    getUser: async () => {
+        try {
+            set({ loading: true })
+           const accessToken =localStorage.getItem('accessToken')
+            const response = await axios.get('http://192.168.1.17:9000/api/user/profile/' , {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                  },
+            })
+            set({ loading: false, user: response.data.data.user  });
+           
+        } catch (error) {
+            set({ loading: false })
         }
     }
 

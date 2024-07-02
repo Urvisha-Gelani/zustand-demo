@@ -1,21 +1,23 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignIn from "./components/users/SignIn"
-import SignUp from "./components/users/SignUp"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SignIn from "./components/form/SignIn"
+import SignUp from "./components/form/SignUp"
+import SigninUser from "./components/users/SigninUser";
 
 function App ()  {
 
   return (
     <>
-    <BrowserRouter>
+    <Router>
       <Routes>
-        <Route >
+        
           <Route index element={<SignIn/>} />
           <Route path="Signin" element={<SignIn/>} />
           <Route path="Signup" element={ <SignUp/>} />
+          <Route path="user/*" element={ <SigninUser/>} />
         
-        </Route>
+
       </Routes>
-    </BrowserRouter>
+    </Router>
     
      
     
