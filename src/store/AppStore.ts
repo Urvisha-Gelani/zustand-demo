@@ -3,6 +3,7 @@ import { SignupValues } from "../components/form/SignUp";
 import { SigninValues } from "../components/form/SignIn";
 import { User } from "../interface/interface";
 import axios from "axios";
+import { UserType } from "../components/users/Update";
 // import axios from "axios";
 // console.log( process.env.REACT_APP_HOST);
 interface signupResponseType {
@@ -20,12 +21,16 @@ export interface AppStoreState {
     new_user: string;
     loading: boolean;
     signUpData: signupResponseType;
-    user: User | []
+    // localUser : User | undefined
+    user: User | [];
+    allUser: User | [];
     postUser: (data: SignupValues) => Promise<void>;
     clear_inputErrors: () => void;
     hide_popUp: () => void;
     signInUser: (data: SigninValues) => Promise<void>;
     getUser: () => Promise<void>
+    updateUser: (data: UserType) => Promise<void>
+    getAllUsers: () => Promise<void>
 }
 
 const useAppStore = create<AppStoreState>((set) => ({
@@ -33,6 +38,8 @@ const useAppStore = create<AppStoreState>((set) => ({
     loading: false,
     signUpData: [],
     user: [],
+    allUser: [],
+    // localUser : JSON.parse(localStorage.getItem("User")),
     postUser: async (data: SignupValues) => {
         try {
             set({ loading: true });
@@ -92,18 +99,50 @@ const useAppStore = create<AppStoreState>((set) => ({
     getUser: async () => {
         try {
             set({ loading: true })
-           const accessToken =localStorage.getItem('accessToken')
-            const response = await axios.get('http://192.168.1.17:9000/api/user/profile/' , {
+            const accessToken = localStorage.getItem('accessToken')
+            const response = await axios.get('http://192.168.1.17:9000/api/user/profile/', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
-                  },
+                },
             })
-            set({ loading: false, user: response.data.data.user  });
-           
+            localStorage.setItem("User", JSON.stringify(response.data.data.user))
+            set({ loading: false, user: response.data.data.user });
+
+        } catch (error) {
+            set({ loading: false })
+        }
+    },
+    updateUser: async (data) => {
+        try {
+            set({ loading: true })
+            const accessToken = localStorage.getItem('accessToken')
+            const response = await axios.patch(`http://192.168.1.17:9000/api/users/${data.id}/`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+
+            })
+            localStorage.setItem("User", JSON.stringify(response.data.data.user))
+            set({ loading: false, user: response.data.data.user })
+        } catch (error) {
+            set({ loading: false })
+        }
+    },
+    getAllUsers: async () => {
+        try {
+            set({ loading: true })
+            const accessToken = localStorage.getItem('accessToken')
+            const response = await axios.get('http://192.168.1.17:9000/api/users/', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+            })
+            set({ loading: false, allUser: response.data.data.users })
         } catch (error) {
             set({ loading: false })
         }
     }
+
 
 
 

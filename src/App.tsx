@@ -13,7 +13,7 @@ function App ()  {
           <Route index element={<SignIn/>} />
           <Route path="Signin" element={<SignIn/>} />
           <Route path="Signup" element={ <SignUp/>} />
-          <Route path="user/*" element={ <SigninUser/>} />
+          <Route path="users/*" element={ <SigninUser/>} />
         
 
       </Routes>

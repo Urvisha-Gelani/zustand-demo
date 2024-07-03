@@ -19,3 +19,10 @@ export const LogInSchema = Yup.object({
     password: Yup.string().min(6).matches(/^\S*$/, 'Email cannot contain spaces').required("Please enter password"),
 })
 
+export const UserSchema = Yup.object({
+    first_name: Yup.string().matches(/^\S*$/, 'Firstname cannot contain spaces').matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Fistname must contain at least one letter').matches(/^[a-zA-Z0-9_]+$/, "Invalid firstname format").required("Please enter first name"),
+    last_name: Yup.string().matches(/^\S*$/, 'Lastname cannot contain spaces').matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Lastname must contain at least one letter').matches(/^[a-zA-Z0-9_]+$/, "Invalid lastname format").required("Please enter last name"),
+    gender: Yup.string().required('Please select an option'),
+
+})
+

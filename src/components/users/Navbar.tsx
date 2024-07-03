@@ -3,15 +3,18 @@ import { FaRegUser, FaUserCircle } from 'react-icons/fa';
 import useAppStore from '../../store/AppStore';
 import { IoIosArrowDown, IoIosArrowUp, IoMdSettings } from 'react-icons/io';
 import { ImSwitch } from 'react-icons/im';
-import Popup from 'reactjs-popup';
-import UserProfile from '../popup/UserProfile';
+import { Link } from 'react-router-dom';
+// import Popup from 'reactjs-popup';
+// import UserProfile from '../popup/UserProfile';
 
 function Navbar() {
     const [dropDown, setDropdown] = useState<boolean>(false)
     const getUser = useAppStore(state => state.getUser)
+    // const navigate = useNavigate()
     const user = useAppStore(state => state.user)
-    const showUserPage = () => {
+    const handleClick = () => {
         setDropdown(!dropDown)
+        // navigate("/userProfile")
     }
     useEffect(() => {
         getUser()
@@ -35,22 +38,26 @@ function Navbar() {
                     </div>
                 </div>
             </div>
-            {(dropDown) ? <div className='w-[130px] bg-white box-shadow absolute top-[3.5vw] right-[0.25vw]'>
-                <div className='px-[3px] py-[6px] text-center text-[15px] bg-[#F4F6FF] hover:bg[#CDE8E5]'>
-                    <Popup trigger={<div className='mb-[3px] px-[3px] py-[3px] flex items-center justify-evenly w-[108px] mx-auto cursor-pointer'>
+            {(dropDown) ? <div className='w-[130px] bg-white box-shadow absolute top-[3.5vw] right-[0.25vw]' onClick={() => setDropdown(!dropDown)}>
+                <div className='px-[3px] py-[6px] text-center text-[15px] bg-[#F4F6FF] hover:bg[#CDE8E5]' >
+                    {/* <Popup trigger={<div className='mb-[3px] px-[3px] py-[3px] flex items-center justify-evenly w-[108px] mx-auto cursor-pointer' onClick={handleClick}>
                         <FaRegUser />
                         <p>Profile</p>
                     </div>}>
                         {close => (
+
                             <UserProfile close={close} />
                         )}
-                    </Popup>
-
-                    <div className='mb-[3px] px-[3px] py-[3px] flex items-center justify-evenly w-[108px] mx-auto cursor-pointer'>
+                    </Popup> */}
+                    <Link to="/users/profile" className='mb-[3px] px-[3px] py-[3px] flex items-center justify-evenly w-[108px] mx-auto cursor-pointer' onClick={handleClick}>
+                        <FaRegUser />
+                        <p>Profile</p>
+                    </Link>
+                    <Link to="settings" className='mb-[3px] px-[3px] py-[3px] flex items-center justify-evenly w-[108px] mx-auto cursor-pointer'>
                         <IoMdSettings />
                         <p>Setting</p>
 
-                    </div>
+                    </Link>
                     <div className='px-[3px] py-[3px] flex items-center justify-evenly w-[108px] mx-auto cursor-pointer'>
                         <ImSwitch />
                         <p>Log out</p>

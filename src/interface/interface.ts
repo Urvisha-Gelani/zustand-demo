@@ -6,6 +6,11 @@ export interface User {
    email : string;
    gender:string;
    password:string;
+   is_admin?:boolean
    created : string;
    updated: string
+}
+
+export interface userData {
+   data : User
 }

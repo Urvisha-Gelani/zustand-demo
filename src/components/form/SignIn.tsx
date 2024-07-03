@@ -45,7 +45,7 @@ function SignIn() {
             // setTimeout(() => {
             //     hide_popUp()
             // }, 2000);
-            navigate("/user")
+            navigate("/users")
         }
     }, [signUpData]);
     return (
