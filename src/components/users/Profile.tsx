@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
 import useAppStore from '../../store/AppStore';
 import Spinner from '../Spinner/Spinner';
-import { User } from '../../interface/interface';
+// import { User } from '../../interface/interface';
 import { SlClose } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
-// import { SlClose } from 'react-icons/sl';
-// interface propsType {
-//     close : () => void
-// }
+
 
 const Profile = () => {
     const localUser = JSON.parse(localStorage.getItem("User"))

@@ -4,30 +4,33 @@ import useAppStore from '../../store/AppStore';
 import Spinner from '../Spinner/Spinner';
 import { UserSchema } from '../../vallidation/errorsSchema';
 import { LuUserCircle } from 'react-icons/lu';
-import { SlClose } from 'react-icons/sl';
+// import { SlClose } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseOutline } from 'react-icons/io5';
+
+export interface updateUserProps {
+    title: string;
+    close?: () => void;
+    data: UserType
+}
 export interface UserType {
-    // username: string;
     id: number
     first_name: string;
     last_name: string;
-    // email: string;
     gender: string;
 
 }
 
-function Update() {
-    const getUser = useAppStore(state => state.getUser)
+const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
+    // const getUser = useAppStore(state => state.getUser)
     const loading = useAppStore(state => state.loading)
     const updateUser = useAppStore(state => state.updateUser)
     const navigate = useNavigate()
-    const localUser = JSON.parse(localStorage.getItem("User"))
     const initialValues: UserType = {
-        id: Number(localUser.id),
-        first_name: localUser.first_name,
-        last_name: localUser.last_name,
-        gender: localUser.gender,
+        id: Number(data.id),
+        first_name: data.first_name,
+        last_name: data.last_name,
+        gender: data.gender,
     }
     const { values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } = useFormik({
         initialValues: initialValues,
@@ -37,9 +40,9 @@ function Update() {
             await updateUser(values)
         },
     })
-    useEffect(() => {
-        getUser()
-    }, [])
+    // useEffect(() => {
+    //     getUser()
+    // }, [])
     return (
         <>
             <div className=''>
@@ -51,9 +54,9 @@ function Update() {
                             <div className='flex justify-between  text-3xl items-center'>
                                 <div className='flex w-[250px] mx-auto gap-[3px] justify-evenly'>
                                     <LuUserCircle />
-                                    <h1 className=' text-center'>Update profile</h1>
+                                    <h1 className=' text-center'>{title}</h1>
                                 </div>
-                                <IoCloseOutline onClick={() => navigate("/users")} className='w-[15%] text-right text-2xl' />
+                                {(title == "Update profile") ? <IoCloseOutline onClick={() => navigate("/users")} className='w-[15%] text-right text-2xl' /> : <div></div>}
 
                             </div>
                             <form className="mt-5" onSubmit={handleSubmit}>
@@ -69,7 +72,7 @@ function Update() {
                                                 name='username'
                                                 type="text"
                                                 placeholder="Username"
-                                                value={localUser.username}
+                                                value={data.username}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 autoComplete='off'
@@ -151,7 +154,7 @@ function Update() {
                                                 className="flex h-10 w-11/12 rounded-md border  bg-[#FEFDED] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                                                 type="email"
                                                 name='email'
-                                                value={localUser.email}
+                                                value={data.email}
                                                 placeholder="Email"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -174,6 +177,7 @@ function Update() {
                                     >
                                         Update
                                     </button>
+                                    <button onClick={() => close()}>close</button>
 
                                 </div>
 

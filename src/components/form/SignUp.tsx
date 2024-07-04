@@ -28,7 +28,7 @@ const initialValues: SignupValues = {
 }
 function SignUp() {
     const postUser = useAppStore(state => state.postUser)
-    const signUpData = useAppStore(state => state.signUpData)
+    const addUserData = useAppStore(state => state.addUserData)
     const hide_popUp = useAppStore(state => state.hide_popUp)
     const clear_inputErrors = useAppStore(state => state.clear_inputErrors)
 
@@ -60,13 +60,13 @@ function SignUp() {
         })
     }
     useEffect(() => {
-        if (signUpData.success) {
+        if (addUserData.success) {
             handleResetForm()
             setTimeout(() => {
                 hide_popUp()
             }, 2000);
         }
-    }, [signUpData])
+    }, [addUserData])
     return (
         <>
             <MainPage />
@@ -75,7 +75,7 @@ function SignUp() {
             </div>
             <div className='absolute position-ab'>
                 <div className='w-[450px] h-full bg-white rounded-lg box-shadow'>
-                    {(signUpData.success) ? <Success sucessfullMsg="Register Sucessfully" /> : ""}
+                    {(addUserData.success) ? <Success sucessfullMsg="Register Sucessfully" /> : ""}
                     <div className='px-6 py-4'>
                         <div>
                             <div className='flex flex-wrap items-center'>
@@ -112,7 +112,7 @@ function SignUp() {
                                                 />
                                             </div>
                                             {(errors.username && touched.username) ? <p className=' text-red-600'>{errors.username}</p> : null}
-                                            {(signUpData.errors !== undefined) ? <p className='text-red-600'>{signUpData.errors.username}</p> : null}
+                                            {(addUserData.errors !== undefined) ? <p className='text-red-600'>{addUserData.errors.username}</p> : null}
                                         </div>
                                         <div className='w-2/4 margin-0'>
                                             <label htmlFor="" className="text-base font-medium text-gray-900">
@@ -170,7 +170,7 @@ function SignUp() {
                                                 />
                                             </div>
                                             {(errors.email && touched.email) ? <p className=' text-red-600'>{errors.email}</p> : null}
-                                            {(signUpData.errors !== undefined) ? <p className='text-red-600'>{signUpData.errors.email}</p> : null}
+                                            {(addUserData.errors !== undefined) ? <p className='text-red-600'>{addUserData.errors.email}</p> : null}
                                         </div>
                                         <div className='w-3/4'>
                                             <div className='flex'>

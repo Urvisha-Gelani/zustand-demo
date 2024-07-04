@@ -12,11 +12,11 @@ function SideBar() {
                 <div className='my-2'>
                     <div className='w-[200px] mx-auto'>
                         <p className='text-sky-800'>- Main</p>
-                        <Link to="profile" className='pl-[10px] py-[10px] text-blue-900 bg-[#6c52760a] text-[14px] hover:bg-[#304463] mt-[10px] flex flex-wrap items-center rounded-lg hover:text-white'>
+                        <Link to="/profile" className='pl-[10px] py-[10px] text-blue-900 bg-[#6c52760a] text-[14px] hover:bg-[#304463] mt-[10px] flex flex-wrap items-center rounded-lg hover:text-white'>
                             <MdOutlineDashboard />
                             <p className='ml-3 font-normal '>Dashboard</p>
                         </Link>
-                        <Link to="companies" className='pl-[10px] py-[10px] text-blue-900 bg-[#6c52760a] text-[14px] hover:bg-[#304463] mt-[10px] flex flex-wrap items-center rounded-lg hover:text-white'>
+                        <Link to="/companies" className='pl-[10px] py-[10px] text-blue-900 bg-[#6c52760a] text-[14px] hover:bg-[#304463] mt-[10px] flex flex-wrap items-center rounded-lg hover:text-white'>
                             <FaLayerGroup />
                             <p className='ml-3 font-normal '>Companies</p>
                         </Link>
