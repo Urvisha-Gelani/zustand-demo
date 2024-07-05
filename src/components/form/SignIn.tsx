@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import MainPage from '../users/MainPage';
+import MainPage from './Layout';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { LogInSchema } from '../../vallidation/errorsSchema';
 import useAppStore from '../../store/AppStore';
 import Spinner from '../Spinner/Spinner';
-import SigninUser from '../users/SigninUser';
+import SigninUser from '../layout/UserLayout';
 
 export interface SigninValues {
     email_or_username: string;
@@ -17,10 +17,8 @@ const initialValues = {
     password: "",
 }
 function SignIn() {
-    const signInUser = useAppStore(state => state.signInUser)
-    const signUpData = useAppStore(state => state.signUpData)
-    // const hide_popUp = useAppStore(state => state.hide_popUp)
-    const clear_inputErrors = useAppStore(state => state.clear_inputErrors)
+    const {signInUser , signUpData , clear_inputErrors} = useAppStore()
+    
     const navigate = useNavigate()
     const { setValues, setTouched, values, errors, touched, handleBlur, handleChange, handleSubmit } = useFormik({
         initialValues: initialValues,
@@ -43,9 +41,6 @@ function SignIn() {
     useEffect(() => {
         if (signUpData.success) {
             handleResetForm()
-            // setTimeout(() => {
-            //     hide_popUp()
-            // }, 2000);
             navigate("/users")
         }
     }, [signUpData]);
@@ -83,7 +78,6 @@ function SignIn() {
                                                     Email address OR Username{' '}
                                                 </label>
                                                 <div className="mt-2">
-                                                    {/* <div className='text-2xl text-gray-400 font-light absolute top-[45%] left-[7%]'>  <CgMail /></div> */}
 
                                                     <input
                                                         className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"

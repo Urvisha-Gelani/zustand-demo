@@ -1,12 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 import { SignupValues } from "../components/form/SignUp";
 import { SigninValues } from "../components/form/SignIn";
 import { User } from "../interface/interface";
 import axios from "axios";
-import { UserType } from "../components/users/Update";
-import Success from "../components/popup/Success";
-// import axios from "axios";
-// console.log( process.env.REACT_APP_HOST);
+import { UserType } from "../components/commonPages/Update";
+
+export interface tokenErrorType {
+    success : boolean;
+    status: number;
+    error : {
+        detail : string;
+    }
+
+}
 interface signupResponseType {
     success?: boolean;
     status?: number;
@@ -24,8 +31,9 @@ export interface AppStoreState {
     signUpData: signupResponseType;
     addUserData: signupResponseType;
     // localUser : User | undefined
-    user: User | [];
-    allUser: User | [];
+    user: User | User[];
+    allUser: User | User[];
+    tokenError : tokenErrorType ;
     postUser: (data: SignupValues) => Promise<void>;
     clear_inputErrors: () => void;
     hide_popUp: () => void;
@@ -40,8 +48,15 @@ export interface AppStoreState {
 const useAppStore = create<AppStoreState>((set) => ({
     new_user: "",
     loading: false,
-    signUpData: [],
-    addUserData: [],
+    signUpData: {},
+    addUserData: {},
+    tokenError : {
+        success :true,
+        status : 0,
+        error :{
+            detail : ""
+        }
+    },
     user: [],
     allUser: [],
     // localUser : JSON.parse(localStorage.getItem("User")),
@@ -99,7 +114,13 @@ const useAppStore = create<AppStoreState>((set) => ({
     },
     signInUser: async (data: SigninValues) => {
         try {
-            set({ loading: true })
+            set({ loading: true , tokenError : {
+                success :true,
+                status : 0,
+                error :{
+                    detail : ""
+                }
+            }})
             const response = await fetch('http://192.168.1.17:9000/api/user/login/', {
                 method: "POST",
                 headers: {
@@ -127,7 +148,7 @@ const useAppStore = create<AppStoreState>((set) => ({
                     Authorization: `Bearer ${accessToken}`
                 },
             })
-            localStorage.setItem("User", JSON.stringify(response.data.data.user))
+            localStorage.setItem("User",JSON.stringify(response.data.data.user))
             set({ loading: false, user: response.data.data.user });
 
         } catch (error) {
@@ -145,12 +166,17 @@ const useAppStore = create<AppStoreState>((set) => ({
 
             })
             localStorage.setItem("User", JSON.stringify(response.data.data.user))
-            set({ loading: false, user: response.data.data.user })
+            set({ loading: false, user: response.data.data.user , addUserData: {
+                success : true,
+                message : "Updated successFully!"
+            } })
+
             set((state) => ({
-                allUser: state.allUser.map(user =>
+                allUser: (state.allUser as User[]).map((user:User)=>
                     user.id === data.id ? { ...user, ...data } : user
                 )
-            }));
+            }))
+           
         } catch (error) {
             set({ loading: false })
         }
@@ -165,22 +191,30 @@ const useAppStore = create<AppStoreState>((set) => ({
                 },
             })
             set({ loading: false, allUser: response.data.data.users })
-        } catch (error) {
-            set({ loading: false })
+        } catch (error:any) {
+            
+            if(error.response.data.status == 401) {
+                    set({tokenError : error.response .data , loading : false})
+                    
+            }
+            
         }
     },
     deleteUser: async (id) => {
         try {
             set({ loading: true })
             const accessToken = localStorage.getItem('accessToken')
-            const response = await axios.delete(`http://192.168.1.17:9000/api/users/${id}`, {
+             await axios.delete(`http://192.168.1.17:9000/api/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
             })
-            set({ loading: false })
+            set({ loading: false , addUserData: {
+                success : true,
+                message : "Deleted successFully!"
+            } })
             set((state) => ({
-                allUser: state.allUser.filter((user) => user.id !== id),
+                allUser: (state.allUser as User[]).filter((user: User) => user.id !== id),
             }));
 
         } catch (error) {

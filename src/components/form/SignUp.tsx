@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import MainPage from '../users/MainPage';
+import MainPage from './Layout';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { SignupSchema } from '../../vallidation/errorsSchema';
@@ -27,11 +27,8 @@ const initialValues: SignupValues = {
     password2: ""
 }
 function SignUp() {
-    const postUser = useAppStore(state => state.postUser)
-    const addUserData = useAppStore(state => state.addUserData)
-    const hide_popUp = useAppStore(state => state.hide_popUp)
-    const clear_inputErrors = useAppStore(state => state.clear_inputErrors)
-
+    const {postUser ,addUserData ,hide_popUp ,clear_inputErrors} = useAppStore()
+   
     const { setValues, setTouched, values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } = useFormik({
         initialValues: initialValues,
         validationSchema: SignupSchema,

@@ -28,12 +28,7 @@ const initialValues: SignupValues = {
 }
 
 const AddUser: React.FC<AddUserProps> = ({ title, close }) => {
-    const postUser = useAppStore(state => state.postUser)
-    const addUserData = useAppStore(state => state.addUserData)
-    const hide_popUp = useAppStore(state => state.hide_popUp)
-    const clear_inputErrors = useAppStore(state => state.clear_inputErrors)
-    const getAllUsers = useAppStore(state => state.getAllUsers)
-
+    const {postUser , addUserData , hide_popUp , clear_inputErrors , getAllUsers} = useAppStore()
     const {values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } = useFormik({
         initialValues: initialValues,
         validationSchema: SignupSchema,
@@ -41,26 +36,7 @@ const AddUser: React.FC<AddUserProps> = ({ title, close }) => {
             await postUser(values)
         },
     })
-    // const handleResetForm = () => {
-    //     setValues({
-    //         username: "",
-    //         first_name: "",
-    //         last_name: "",
-    //         email: "",
-    //         gender: "",
-    //         password: "",
-    //         password2: ""
-    //     })
-    //     setTouched({
-    //         username: false,
-    //         first_name: false,
-    //         last_name: false,
-    //         email: false,
-    //         gender: false,
-    //         password: false,
-    //         password2: false
-    //     })
-    // }
+   
     useEffect(() => {
         if (addUserData.success) {
             close()
@@ -73,7 +49,7 @@ const AddUser: React.FC<AddUserProps> = ({ title, close }) => {
     return (
         <>
             
-            <div className='model w-full'>
+            <div className='w-[55vh]'>
                 <div className='px-[10px] py-[10px]'>
                     <div className='text-center'>
                         <h1 className='text-2xl'>{title}</h1>

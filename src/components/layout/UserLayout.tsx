@@ -1,13 +1,8 @@
 import React, { useEffect } from 'react';
-// import { Routes, Route } from 'react-router-dom';
 import SideBar from './SideBar';
-import Navbar from './Navbar';
 import { Outlet, useNavigate } from 'react-router-dom';
-import SignIn from '../form/SignIn';
-// import Companies from './Companies';
-// import Profile from './Profile';
-// import Update from './Update';
-// import Users from './Users';
+import Navbar from './Navbar';
+
 
 
 function SigninUser() {
@@ -31,13 +26,7 @@ function SigninUser() {
                         </div>
                         <div className=' mt-2 rounded-t-2xl h-full bg-white'>
                             <Outlet />
-                            {/* <Routes>
-                                <Route index element={<Users />} />
-                                <Route path='users' element={<Users />} />
-                                <Route path='companies' element={<Companies />} />
-                                <Route path='profile' element={<Profile />} />
-                                <Route path="settings" element={<Update title="Update profile" data={JSON.parse(localStorage.getItem("User"))}/>}/>
-                            </Routes> */}
+                            
                         </div>
                     </div>
 

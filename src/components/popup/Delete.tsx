@@ -2,9 +2,9 @@ import React from 'react';
 
 interface deleteProps {
     message: string;
-    id? : number;
+    id : number;
     close: () => void;
-    deleteUse: () => void
+    deleteUse: (id:number) => void
 }
 
 const Delete: React.FC<deleteProps> = ({ message, id, close, deleteUse }) => {

@@ -1,14 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SignIn from "./components/form/SignIn"
 import SignUp from "./components/form/SignUp"
-import SigninUser from "./components/users/SigninUser";
-import Users from './components/users/Users';
-import Companies from './components/users/Companies';
-import Profile from './components/users/Profile';
-import Update from './components/users/Update';
+import SigninUser from "./components/layout/UserLayout";
+import Profile from './components/commonPages/Profile';
+import Update, { UserType } from './components/commonPages/Update';
+import NoPage from './components/errorPage/NoPage';
+import Users from './components/users';
+import Companies from './components/companiesPages/Companies';
+// import Companies from './components/companiesPages/Companies';
 
 function App() {
-
+const localdata:any = localStorage.getItem("User")
+const localUser : UserType = JSON.parse(localdata)
   return (
     <>
       <Router>
@@ -22,8 +26,10 @@ function App() {
               <Route path='users' element={<Users />} />
               <Route path='companies' element={<Companies />} />
               <Route path='profile' element={<Profile />} />
-              <Route path="settings" element={<Update title="Update profile" data={JSON.parse(localStorage.getItem("User"))} />} />
+              {/* <Route path='*' element={<NoPage />} /> */}
+              <Route path="settings" element={<Update title="Update profile" data={localUser} />} />
             </Route>
+            <Route path='*' element={<NoPage />} />
           </Route>
 
 

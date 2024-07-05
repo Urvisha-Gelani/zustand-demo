@@ -1,30 +1,33 @@
 import { useFormik } from 'formik';
-import React, { useEffect } from 'react';
+import React from 'react';
 import useAppStore from '../../store/AppStore';
 import Spinner from '../Spinner/Spinner';
 import { UserSchema } from '../../vallidation/errorsSchema';
 import { LuUserCircle } from 'react-icons/lu';
-// import { SlClose } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseOutline } from 'react-icons/io5';
+// import { User } from '../../interface/interface';
 
 export interface updateUserProps {
     title: string;
-    close?: () => void;
+    close?: (() => void) | undefined
     data: UserType
 }
 export interface UserType {
-    id: number
+    id: number;
+    username?: string;
     first_name: string;
     last_name: string;
     gender: string;
+    email?: string;
+    created?: string;
+    updated?: string;
+    password?: string;
 
 }
 
 const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
-    // const getUser = useAppStore(state => state.getUser)
-    const loading = useAppStore(state => state.loading)
-    const updateUser = useAppStore(state => state.updateUser)
+    const { updateUser, loading } = useAppStore()
     const navigate = useNavigate()
     const initialValues: UserType = {
         id: Number(data.id),
@@ -40,13 +43,11 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
             await updateUser(values)
         },
     })
-    // useEffect(() => {
-    //     getUser()
-    // }, [])
+
     return (
         <>
             <div className=''>
-                <div className='w-[600px] mx-auto px-[20px] py-[15px] '>
+                <div className='w-[100%] mx-auto px-[20px] py-[15px] '>
                     <div className='bg-[#cfcfcf7d] mt-[15px] px-[20px] py-[15px]'>
                         {(loading) ? <div className=' absolute position-ab opacity-[1] z-[3]'>
                             <Spinner />
@@ -68,7 +69,7 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                                className="flex h-10 w-11/12 rounded-md border  bg-[#FEFDED] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                className="flex h-10 w-11/12 rounded-md border  bg-[#FEFDED] px-3 py-2 text-sm placeholder:text-black focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-70"
                                                 name='username'
                                                 type="text"
                                                 placeholder="Username"
@@ -76,6 +77,7 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 autoComplete='off'
+                                                disabled={true}
 
                                             />
                                         </div>
@@ -151,7 +153,7 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
                                         </label>
                                         <div className="mt-2">
                                             <input
-                                                className="flex h-10 w-11/12 rounded-md border  bg-[#FEFDED] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                className="flex h-10 w-11/12 rounded-md border  bg-[#FEFDED] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-70"
                                                 type="email"
                                                 name='email'
                                                 value={data.email}
@@ -159,7 +161,7 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 autoComplete='off'
-                                            // disabled={true}
+                                                disabled={true}
                                             />
                                         </div>
                                         <p className='text-[12px]'>Note :You can not change email.</p>
@@ -177,7 +179,10 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
                                     >
                                         Update
                                     </button>
-                                    <button onClick={() => close()}>close</button>
+                                    {(title === "Update profile") ?
+                                        <div></div> :
+                                        (close && <button onClick={() => close()} className="inline-flex ml-[10px] items-center justify-center rounded-md bg-red-800 px-[20px] py-[5px] font-semibold leading-7 text-white">close</button>)
+                                    }
 
                                 </div>
 

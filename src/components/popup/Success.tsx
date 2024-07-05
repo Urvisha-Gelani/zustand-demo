@@ -1,8 +1,9 @@
 import React from 'react';
-interface Props {
-    sucessfullMsg : string;
+interface successProps {
+    sucessfullMsg : string | undefined;
 }
-const Success: React.FC<Props> = (props) =>  {
+const Success: React.FC<successProps> = ({sucessfullMsg}) =>  {
+    console.log(sucessfullMsg , "**************************");
     return (
         <>
             <div className='w-full box-shadow'>
@@ -28,7 +29,7 @@ const Success: React.FC<Props> = (props) =>  {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-green-600">
-                                {props.sucessfullMsg}
+                                {sucessfullMsg}
                             </p>
                         </div>
                         <div>
