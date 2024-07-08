@@ -12,14 +12,14 @@ import Update from '../commonPages/Update';
 import Delete from '../popup/Delete';
 import { useNavigate } from 'react-router-dom';
 import UserProfile from '../popup/UserProfile';
+export type CloseFunction = () => void;
 
 function Users() {
-    const { getAllUsers, addUserData, allUser, hide_popUp, loading, deleteUser, tokenError } = useAppStore()
-
+    const { getAllUsers, addUserData, allUser, hidePopUp, loading, deleteUser, tokenError } = useAppStore()
     const navigate = useNavigate()
     if (addUserData.success) {
         setTimeout(() => {
-            hide_popUp()
+            hidePopUp()
         }, 2000);
     }
     useEffect(() => {
@@ -52,8 +52,10 @@ function Users() {
                                 <span> Add </span>
                                 <IoMdPersonAdd className=' text-[20px]' />
                             </button>}>
-                                {(close) => (
+                                {(close : CloseFunction) => (
+                                    <>
                                     <AddUser close={close} title="Add User" />
+                                    </>
                                 )}
                             </Popup>
                         </div>
@@ -64,7 +66,7 @@ function Users() {
                     <div className="overflow-x-auto px-[10px] scrollbar-custom ">
                         {
                             (loading) ? <div className=' absolute position-ab opacity-[1] z-[3]'>
-                                <Spinner />
+                                <Spinner status={loading}/>
                             </div> :
                                 <table className="w-[70vw] px-[10px] mx-auto text-center table-striped border mt-[15px]">
                                     <thead className=''>

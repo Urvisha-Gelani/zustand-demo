@@ -36,7 +36,7 @@ export interface AppStoreState {
     tokenError : tokenErrorType ;
     postUser: (data: SignupValues) => Promise<void>;
     clear_inputErrors: () => void;
-    hide_popUp: () => void;
+    hidePopUp: () => void;
     signInUser: (data: SigninValues) => Promise<void>;
     getUser: () => Promise<void>;
     updateUser: (data: UserType) => Promise<void>;
@@ -99,7 +99,7 @@ const useAppStore = create<AppStoreState>((set) => ({
             }
         })
     },
-    hide_popUp: () => {
+    hidePopUp: () => {
         set({
             signUpData: {
                 success: false

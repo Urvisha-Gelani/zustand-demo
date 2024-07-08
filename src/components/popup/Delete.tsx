@@ -10,7 +10,7 @@ interface deleteProps {
 const Delete: React.FC<deleteProps> = ({ message, id, close, deleteUse }) => {
     return (
         <>
-            <div className='text-center w-[377px]'>
+            <div className='text-center w-[100%] mx-auto'>
                 <p>{message}</p>
                 <div className='flex flex-wrap justify-center gap-1 mt-5'>
                     <button

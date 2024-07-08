@@ -8,7 +8,6 @@ import Update, { UserType } from './components/commonPages/Update';
 import NoPage from './components/errorPage/NoPage';
 import Users from './components/users';
 import Companies from './components/companiesPages/Companies';
-// import Companies from './components/companiesPages/Companies';
 
 function App() {
 const localdata:any = localStorage.getItem("User")

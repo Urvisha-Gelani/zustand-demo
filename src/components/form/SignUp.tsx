@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import MainPage from './Layout';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { SignupSchema } from '../../vallidation/errorsSchema';
 import useAppStore from '../../store/AppStore';
 import Success from '../popup/Success';
-import Spinner from '../Spinner/Spinner';
+// import Spinner from '../Spinner/Spinner';
 
 export interface SignupValues {
     username: string;
@@ -27,7 +27,7 @@ const initialValues: SignupValues = {
     password2: ""
 }
 function SignUp() {
-    const {postUser ,addUserData ,hide_popUp ,clear_inputErrors} = useAppStore()
+    const {postUser ,addUserData ,hidePopUp ,clear_inputErrors} = useAppStore()
    
     const { setValues, setTouched, values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } = useFormik({
         initialValues: initialValues,
@@ -60,7 +60,7 @@ function SignUp() {
         if (addUserData.success) {
             handleResetForm()
             setTimeout(() => {
-                hide_popUp()
+                hidePopUp()
             }, 2000);
         }
     }, [addUserData])
@@ -68,7 +68,7 @@ function SignUp() {
         <>
             <MainPage />
             <div className=' absolute position-ab opacity-[1] z-[3]'>
-                <Spinner />
+                {/* <Spinner status={true}/> */}
             </div>
             <div className='absolute position-ab'>
                 <div className='w-[450px] h-full bg-white rounded-lg box-shadow'>

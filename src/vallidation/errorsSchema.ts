@@ -26,3 +26,9 @@ export const UserSchema = Yup.object({
 
 })
 
+export const CompanySchema = Yup.object({
+    name: Yup.string().matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Company name must contain letters').matches(/^[a-zA-Z0-9\s,'-.]*$/, 'Invalid characters').required("Please enter company name"),
+    location: Yup.string().min(2).matches(/^[a-zA-Z0-9\s,'-]*$/, 'Invalid characters').matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Company location must contain letters').required("Please enter company location"),
+    about: Yup.string().matches(/([a-zA-Z])[a-zA-Z0-9]/, 'about must contain letters').matches(/^[a-zA-Z0-9\s,'-]*$/, 'Invalid characters').required("Please enter company about"),
+    type: Yup.string().required("Please select company type")
+})

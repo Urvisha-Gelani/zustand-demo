@@ -33,7 +33,7 @@
     left: 50vw !important;
     background: white;
     transform: translate(-50%, -50%) !important;
-    /* width: 50vw; */
+    width: 35vw;
     padding: 12px !important;
     border-radius: 8px !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
@@ -57,7 +57,7 @@
   }
   
   .scrollbar-custom::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: white;
   }
   
   .scrollbar-custom::-webkit-scrollbar-thumb {

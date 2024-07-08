@@ -47,10 +47,10 @@ const Update: React.FC<updateUserProps> = ({ data, title, close }) => {
     return (
         <>
             <div className=''>
-                <div className='w-[100%] mx-auto px-[20px] py-[15px] '>
+                <div className='w-[50vh] mx-auto px-[20px] py-[15px] '>
                     <div className='bg-[#cfcfcf7d] mt-[15px] px-[20px] py-[15px]'>
                         {(loading) ? <div className=' absolute position-ab opacity-[1] z-[3]'>
-                            <Spinner />
+                            <Spinner status={loading}/>
                         </div> : <div>
                             <div className='flex justify-between  text-3xl items-center'>
                                 <div className='flex w-[250px] mx-auto gap-[3px] justify-evenly'>

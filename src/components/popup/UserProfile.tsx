@@ -1,6 +1,7 @@
 import React from 'react';
 import { SlClose } from 'react-icons/sl';
 import { User } from '../../interface/interface';
+import { convertedDate } from '../../common/Common';
 
 export interface UserProfileProps {
     title: string;
@@ -8,11 +9,7 @@ export interface UserProfileProps {
     data: User
 }
 const UserProfile: React.FC<UserProfileProps> = ({ close, title, data }) => {
-    const convertedDate = (date:string) => {
-        const utcDate = new Date(date);
-        const localDateTimeString = utcDate.toLocaleString();
-        return localDateTimeString;
-    }
+   
     return (
         <>
             <div className='w-[90vh]'>

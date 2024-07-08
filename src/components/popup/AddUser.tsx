@@ -28,7 +28,7 @@ const initialValues: SignupValues = {
 }
 
 const AddUser: React.FC<AddUserProps> = ({ title, close }) => {
-    const {postUser , addUserData , hide_popUp , clear_inputErrors , getAllUsers} = useAppStore()
+    const {postUser , addUserData , hidePopUp , clear_inputErrors , getAllUsers} = useAppStore()
     const {values, touched, errors, handleBlur, handleChange, handleSubmit, getFieldProps } = useFormik({
         initialValues: initialValues,
         validationSchema: SignupSchema,
@@ -42,14 +42,14 @@ const AddUser: React.FC<AddUserProps> = ({ title, close }) => {
             close()
             getAllUsers()
             setTimeout(() => {
-                hide_popUp()
+                hidePopUp()
             }, 2000);
         }
     }, [addUserData])
     return (
         <>
             
-            <div className='w-[55vh]'>
+            <div className=''>
                 <div className='px-[10px] py-[10px]'>
                     <div className='text-center'>
                         <h1 className='text-2xl'>{title}</h1>
