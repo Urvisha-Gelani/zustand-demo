@@ -52,9 +52,9 @@ function Users() {
                                 <span> Add </span>
                                 <IoMdPersonAdd className=' text-[20px]' />
                             </button>}>
-                                {(close : CloseFunction) => (
+                                {(close: CloseFunction) => (
                                     <>
-                                    <AddUser close={close} title="Add User" />
+                                        <AddUser close={close} title="Add User" />
                                     </>
                                 )}
                             </Popup>
@@ -66,7 +66,7 @@ function Users() {
                     <div className="overflow-x-auto px-[10px] scrollbar-custom ">
                         {
                             (loading) ? <div className=' absolute position-ab opacity-[1] z-[3]'>
-                                <Spinner status={loading}/>
+                                <Spinner status={loading} />
                             </div> :
                                 <table className="w-[70vw] px-[10px] mx-auto text-center table-striped border mt-[15px]">
                                     <thead className=''>

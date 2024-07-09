@@ -13,6 +13,9 @@ export interface companyProps {
 }
 const Company: React.FC<companyProps> = ({ close, title, data, page }) => {
     const { postCompany, companyError, clearCompanyError, updateCompany, success } = useCompanyStore()
+    if(data !== undefined) {
+        localStorage.setItem("company"  , JSON.stringify(data))
+    }
     const initialValues: companyType = {
         name: data === undefined ? "" : data.name,
         location: data === undefined ? "" : data.location,
@@ -76,7 +79,7 @@ const Company: React.FC<companyProps> = ({ close, title, data, page }) => {
                                             onInput={() => clearCompanyError()}
                                         />
                                         {(errors.name && touched.name) ? <p className=' text-red-600'>{errors.name}</p> : null}
-                                        {(companyError !== "") ? <p className='text-red-600'>{companyError}</p> : <p></p>}
+                                        {/* {(companyError !== "") ? <p className='text-red-600'>{companyError}</p> : <p></p>} */}
                                     </div>
                                 </div>
                             </div>

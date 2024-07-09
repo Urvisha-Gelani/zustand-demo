@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { LogInSchema } from '../../vallidation/errorsSchema';
 import useAppStore from '../../store/AppStore';
-import Spinner from '../Spinner/Spinner';
+// import Spinner from '../Spinner/Spinner';
 import SigninUser from '../layout/UserLayout';
 
 export interface SigninValues {
@@ -49,7 +49,7 @@ function SignIn() {
             {(localStorage.getItem("accessToken")) ? <SigninUser /> : <div>
                 <MainPage />
                 <div className=' absolute position-ab opacity-[1] z-[3]'>
-                    <Spinner />
+                    {/* <Spinner /> */}
                 </div>
                 <div className='absolute position-ab'>
                     <div className='w-[430px] h-full bg-white rounded-lg box-shadow'>

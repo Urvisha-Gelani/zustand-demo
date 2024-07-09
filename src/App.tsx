@@ -8,10 +8,12 @@ import Update, { UserType } from './components/commonPages/Update';
 import NoPage from './components/errorPage/NoPage';
 import Users from './components/users';
 import Companies from './components/companiesPages/Companies';
+import CoNavbar from './components/compnyLayout/CoNavbar';
+import CompanyProfile from './components/compnyLayout';
 
 function App() {
-const localdata:any = localStorage.getItem("User")
-const localUser : UserType = JSON.parse(localdata)
+  const localdata: any = localStorage.getItem("User")
+  const localUser: UserType = JSON.parse(localdata)
   return (
     <>
       <Router>
@@ -28,8 +30,11 @@ const localUser : UserType = JSON.parse(localdata)
               {/* <Route path='*' element={<NoPage />} /> */}
               <Route path="settings" element={<Update title="Update profile" data={localUser} />} />
             </Route>
-            <Route path='*' element={<NoPage />} />
-          </Route>
+            <Route path="/companies/:companyId" element={<CoNavbar />}>
+              <Route index  element={<CompanyProfile />} />
+            </Route>
+              <Route path='*' element={<NoPage />} />
+            </Route>
 
 
 

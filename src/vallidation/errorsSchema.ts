@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from "yup";
+import { useCompanyStore } from "../store/CompanyStore";
+import { companyType } from "../interface/interface";
 
 export const SignupSchema = Yup.object({
     username: Yup.string().min(2).matches(/^\S*$/, 'Username cannot contain spaces').matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Username must contain at least one letter').matches(/^[a-zA-Z0-9]+$/, "Invalid username format").required("Please enter username"),
@@ -25,10 +28,13 @@ export const UserSchema = Yup.object({
     gender: Yup.string().required('Please select an option'),
 
 })
+const allCompanies = useCompanyStore.getState().allCompanies;
+const updateCompany : any = localStorage.getItem("company")
+const companyData:companyType = JSON.parse(updateCompany)
 
 export const CompanySchema = Yup.object({
-    name: Yup.string().matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Company name must contain letters').matches(/^[a-zA-Z0-9\s,'-.]*$/, 'Invalid characters').required("Please enter company name"),
+    name: Yup.string().matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Company name must contain letters').matches(/^[a-zA-Z0-9\s,'-.]*$/, 'Invalid characters').test('unique-name', 'Name already exists', value => !allCompanies.some(company => company.name === value && company.id != companyData.id)).required("Please enter company name"),
     location: Yup.string().min(2).matches(/^[a-zA-Z0-9\s,'-]*$/, 'Invalid characters').matches(/([a-zA-Z])[a-zA-Z0-9]/, 'Company location must contain letters').required("Please enter company location"),
-    about: Yup.string().matches(/([a-zA-Z])[a-zA-Z0-9]/, 'about must contain letters').matches(/^[a-zA-Z0-9\s,'-]*$/, 'Invalid characters').required("Please enter company about"),
-    type: Yup.string().required("Please select company type")
+        about: Yup.string().matches(/([a-zA-Z])[a-zA-Z0-9]/, 'about must contain letters').matches(/^[a-zA-Z0-9\s,'-]*$/, 'Invalid characters').required("Please enter company about"),
+            type: Yup.string().required("Please select company type")
 })

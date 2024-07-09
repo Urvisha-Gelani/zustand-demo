@@ -13,7 +13,9 @@ export interface compnayStoreState {
     success: boolean;
     hideCompanyPopUp: () => void;
     updateCompany: (data: companyType, page: number, id: number) => void;
-    companyDelete : (id:number , page : number) => void;
+    companyDelete: (id: number, page: number) => void;
+    company: companyType | companyType[]
+    getCompany: (id: number) => void;
 }
 
 export const useCompanyStore = create<compnayStoreState>((set, get) => ({
@@ -21,6 +23,7 @@ export const useCompanyStore = create<compnayStoreState>((set, get) => ({
     allCompanies: [],
     companyError: "",
     success: false,
+    company: [],
     getAllComapnies: async (page) => {
         try {
             set({ compnayLoading: true })
@@ -77,7 +80,7 @@ export const useCompanyStore = create<compnayStoreState>((set, get) => ({
             set({ compnayLoading: false, companyError: error.response.data.errors.name })
         }
     },
-    companyDelete : async (id , page) => {
+    companyDelete: async (id, page) => {
         try {
             set({ compnayLoading: true })
             const accessToken = localStorage.getItem('accessToken')
@@ -86,11 +89,25 @@ export const useCompanyStore = create<compnayStoreState>((set, get) => ({
                     Authorization: `Bearer ${accessToken}`
                 },
             })
-                set({ success: response.data.success })
-                get().getAllComapnies(page)
-            
+            set({ success: response.data.success })
+            get().getAllComapnies(page)
+
         } catch (error) {
-            set({compnayLoading : false})
+            set({ compnayLoading: false })
+        }
+    },
+    getCompany: async (id) => {
+        try {
+            set({ compnayLoading: true })
+            const accessToken = localStorage.getItem('accessToken')
+            const response = await axios.get(`http://192.168.1.17:9000/api/companies/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+            })
+            set({ compnayLoading: false, company: response.data.data.Company })
+        } catch (error) {
+            set({ compnayLoading: false })
         }
     }
 

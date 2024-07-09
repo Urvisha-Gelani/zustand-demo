@@ -13,8 +13,8 @@ function Navbar() {
     const loggedInUser = Array.isArray(user) ? user[0] : user
     const navigate = useNavigate()
     const logout = () => {
-        localStorage.clear()
         navigate("/Signin")
+        localStorage.clear()
     }
     const handleClick = () => {
         setDropdown(!dropDown)
@@ -58,7 +58,7 @@ function Navbar() {
                         <p>Log out</p>
                     </div>}>
                         {close => (
-                            <Delete close={close} message="Are you sure you want to log out?" deleteUse={logout} id={0} />
+                            <Delete close={close} message="Are you sure you want to log out?" deleteUse={() => logout()} id={0} />
                         )}
                     </Popup>
 
