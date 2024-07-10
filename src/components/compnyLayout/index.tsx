@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useCompanyStore } from '../../store/CompanyStore';
 import Spinner from '../Spinner/Spinner';
@@ -8,7 +8,7 @@ function CompanyProfile() {
   const { company, getCompany, compnayLoading } = useCompanyStore()
   useEffect(() => {
     getCompany(Number(companyId))
-  }, [])
+  }, [getCompany, companyId])
   return (
     <>
       <div>
@@ -18,7 +18,7 @@ function CompanyProfile() {
               <div className='w-full'>
 
                 <div className='mt-8'>
-                  <p className='text-3xl text-black inline-block font-bold tracking-tight text-black md:text-4xl lg:text-4xl'>
+                  <p className='text-3xl  inline-block font-bold tracking-tight text-black md:text-4xl lg:text-4xl'>
                     {company.name}
                   </p>
                 </div>

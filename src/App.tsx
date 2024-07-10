@@ -10,6 +10,7 @@ import Users from './components/users';
 import Companies from './components/companiesPages/Companies';
 import CoNavbar from './components/compnyLayout/CoNavbar';
 import CompanyProfile from './components/compnyLayout';
+import Department from './components/companiesPages/Department';
 
 function App() {
   const localdata: any = localStorage.getItem("User")
@@ -32,6 +33,8 @@ function App() {
             </Route>
             <Route path="/companies/:companyId" element={<CoNavbar />}>
               <Route index  element={<CompanyProfile />} />
+              <Route path='/companies/:companyId/departments'  element={<Department />} />
+
             </Route>
               <Route path='*' element={<NoPage />} />
             </Route>

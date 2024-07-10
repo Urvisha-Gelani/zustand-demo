@@ -1,10 +1,10 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import Delete from '../popup/Delete';
 
 function CoNavbar() {
-    const {companyId} = useParams()
+    const { companyId } = useParams()
     const navigate = useNavigate()
     const logout = () => {
         navigate("/Signin")
@@ -12,7 +12,7 @@ function CoNavbar() {
     }
     return (
         <>
-            <div className="relative w-full bg-blue-950 sticky top-0">
+            <div className="w-full bg-blue-950 sticky top-0">
                 <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
                     <div className="hidden lg:block">
                         <ul className="inline-flex space-x-8">
@@ -49,16 +49,19 @@ function CoNavbar() {
                         >
                             Log Out
                         </button>}>
-                            {close => (
-                                <Delete close={close} message="Are you sure you want to logout?" deleteUse={() => logout()} id={0} />
-                            )}
+                            {(
+                                (close: () => void) => (
+                                    <Delete close={close} message="Are you sure you want to logout?" deleteUse={() => logout()} id={0} />
+                                )
+                            ) as unknown as ReactNode}
+
                         </Popup>
                     </div>
 
                 </div>
             </div>
-            <div className='my-[20px] w-[1200px] mx-auto'>
-                <Outlet/>
+            <div className='my-[20px]'>
+                <Outlet />
             </div>
 
         </>

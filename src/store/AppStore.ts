@@ -5,6 +5,8 @@ import { SigninValues } from "../components/form/SignIn";
 import { User } from "../interface/interface";
 import axios from "axios";
 import { UserType } from "../components/commonPages/Update";
+import { apiUrl } from "../common/Common";
+
 
 export interface tokenErrorType {
     success : boolean;
@@ -12,14 +14,15 @@ export interface tokenErrorType {
     error : {
         detail : string;
     }
-
 }
+
 interface signupResponseType {
     success?: boolean;
     status?: number;
     message?: string;
     errors?: ErrorType;
 }
+
 export interface ErrorType {
     email?: string[];
     username?: string[];
@@ -41,7 +44,7 @@ export interface AppStoreState {
     getUser: () => Promise<void>;
     updateUser: (data: UserType) => Promise<void>;
     getAllUsers: () => Promise<void>;
-    deleteUser: (id: number) => Promise<void>;
+    deleteUser: (id: number | undefined) => void;
     logout : () => void
 }
 
@@ -59,11 +62,10 @@ const useAppStore = create<AppStoreState>((set) => ({
     },
     user: [],
     allUser: [],
-    // localUser : JSON.parse(localStorage.getItem("User")),
     postUser: async (data: SignupValues) => {
         try {
             // set({ loading: true });
-            const response = await fetch('http://192.168.1.17:9000/api/user/register/', {
+            const response = await fetch(`${apiUrl}api/user/register/`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +123,7 @@ const useAppStore = create<AppStoreState>((set) => ({
                     detail : ""
                 }
             }})
-            const response = await fetch('http://192.168.1.17:9000/api/user/login/', {
+            const response = await fetch(`${apiUrl}api/user/login/`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -143,7 +145,7 @@ const useAppStore = create<AppStoreState>((set) => ({
         try {
             set({ loading: true })
             const accessToken = localStorage.getItem('accessToken')
-            const response = await axios.get('http://192.168.1.17:9000/api/user/profile/', {
+            const response = await axios.get(`${apiUrl}api/user/profile/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
@@ -159,7 +161,7 @@ const useAppStore = create<AppStoreState>((set) => ({
         try {
             set({ loading: true })
             const accessToken = localStorage.getItem('accessToken')
-            const response = await axios.patch(`http://192.168.1.17:9000/api/users/${data.id}/`, data, {
+            const response = await axios.patch(`${apiUrl}api/users/${data.id}/`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
@@ -185,7 +187,7 @@ const useAppStore = create<AppStoreState>((set) => ({
         try {
             set({ loading: true })
             const accessToken = localStorage.getItem('accessToken')
-            const response = await axios.get('http://192.168.1.17:9000/api/users/', {
+            const response = await axios.get(`${apiUrl}api/users/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
@@ -204,7 +206,7 @@ const useAppStore = create<AppStoreState>((set) => ({
         try {
             set({ loading: true })
             const accessToken = localStorage.getItem('accessToken')
-             await axios.delete(`http://192.168.1.17:9000/api/users/${id}`, {
+             await axios.delete(`${apiUrl}api/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 },
