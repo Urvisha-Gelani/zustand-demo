@@ -14,7 +14,7 @@ export interface updateUserProps {
   data: UserType;
 }
 export interface UserType {
-  id: number;
+  id: number|string;
   username?: string;
   first_name: string;
   last_name: string;

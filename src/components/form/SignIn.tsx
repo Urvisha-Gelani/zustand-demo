@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LogInSchema } from "../../vallidation/errorsSchema";
 import useAppStore from "../../store/AppStore";
+// import { commonUser } from "../../common/Common";
 // import Spinner from '../Spinner/Spinner';
 
 export interface SigninValues {
@@ -16,41 +17,28 @@ const initialValues = {
   password: "",
 };
 function SignIn() {
-  const { signInUser, signUpData, clear_inputErrors } = useAppStore();
+  const { signInUser, signUpData, clear_inputErrors, user } = useAppStore();
 
   const navigate = useNavigate();
-  const {
-    setValues,
-    setTouched,
-    values,
-    errors,
-    touched,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: initialValues,
-    validationSchema: LogInSchema,
-    onSubmit: async (values) => {
-      console.log(values);
-      await signInUser(values);
-    },
-  });
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: LogInSchema,
+      onSubmit: async (values) => {
+        console.log(values);
+        await signInUser(values);
+      },
+    });
 
   useEffect(() => {
     if (signUpData.success) {
-      setValues({
-        email_or_username: "",
-        password: "",
-      });
-      setTouched({
-        email_or_username: false,
-        password: false,
-      });
-
-      navigate("/users");
+      // localStorage.setItem("User", JSON.stringify(user));
+      console.log( user  , "gender");
+      const PathUrl = user.gender == "M" ? "/Male_user" : "/Female_user";
+      console.log(PathUrl , "***PathUrl***");
+      navigate(PathUrl);
     }
-  }, [signUpData, navigate, setValues, setTouched]);
+  }, [signUpData.success, navigate]);
   return (
     <>
       <div>

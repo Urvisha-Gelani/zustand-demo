@@ -3,7 +3,7 @@ import { FaRegUser, FaUserCircle } from "react-icons/fa";
 import useAppStore from "../../store/AppStore";
 import { IoIosArrowDown, IoIosArrowUp, IoMdSettings } from "react-icons/io";
 import { ImSwitch } from "react-icons/im";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
 import Delete from "../popup/Delete";
 
@@ -11,10 +11,9 @@ function Navbar() {
   const [dropDown, setDropdown] = useState<boolean>(false);
   const { getUser, user } = useAppStore();
   const loggedInUser = Array.isArray(user) ? user[0] : user;
-  const navigate = useNavigate();
   const logout = () => {
-    navigate("/Signin");
-    localStorage.clear();
+    localStorage.removeItem("accessToken");
+    window.location.href = '/signin';
   };
   const handleClick = () => {
     setDropdown(!dropDown);
