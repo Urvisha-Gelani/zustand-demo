@@ -42,10 +42,9 @@ export interface AppStoreState {
   signInUser: (data: SigninValues) => Promise<void>;
   getUser: () => Promise<void>;
   updateUser: (data: UserType) => Promise<void>;
-  getAllUsers: () => Promise<void>;
+  getAllUsers: (gender?: string | undefined) => Promise<void>;
   deleteUser: (id: number | undefined) => void;
   logout: () => void;
-  getAuthenticatedUser: (gender: string) => Promise<void>;
 }
 
 const useAppStore = create<AppStoreState>((set, get) => ({
@@ -199,7 +198,7 @@ const useAppStore = create<AppStoreState>((set, get) => ({
       set({ loading: false });
     }
   },
-  getAllUsers: async () => {
+  getAllUsers: async (gender) => {
     try {
       set({ loading: true });
       const accessToken = localStorage.getItem("accessToken");
@@ -208,7 +207,16 @@ const useAppStore = create<AppStoreState>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      set({ loading: false, allUser: response.data.data.users });
+      if (gender !== undefined) {
+        set({ loading: false });
+        set({
+          allUser: response.data.data.users.filter(
+            (user: User) => user.gender === gender
+          ),
+        });
+      } else {
+        set({ loading: false, allUser: response.data.data.users });
+      }
     } catch (error: any) {
       if (error.response.data.status == 401) {
         set({ tokenError: error.response.data, loading: false });
@@ -238,27 +246,6 @@ const useAppStore = create<AppStoreState>((set, get) => ({
       }));
     } catch (error) {
       set({ loading: false });
-    }
-  },
-  getAuthenticatedUser: async (gender) => {
-    try {
-      set({ loading: true });
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.get(`${apiUrl}api/users/`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      set({ loading: false });
-      set({
-        allUser: response.data.data.users.filter(
-          (user: User) => user.gender === gender
-        ),
-      });
-    } catch (error: any) {
-      if (error.response.data.status == 401) {
-        set({ tokenError: error.response.data, loading: false });
-      }
     }
   },
 }));

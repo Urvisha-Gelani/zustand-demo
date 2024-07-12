@@ -10,11 +10,13 @@ import Success from "../popup/Success";
 import Spinner from "../Spinner/Spinner";
 import Update from "../commonPages/Update";
 import Delete from "../popup/Delete";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import UserProfile from "../popup/UserProfile";
 export type CloseFunction = () => void;
 
 function Users() {
+  const location = useLocation()
+  console.log(location.pathname , "***url***");
   const {
     getAllUsers,
     addUserData,
@@ -58,7 +60,7 @@ function Users() {
                             <input className='flex h-10 w-11/12 rounded-md border  bg-[#f7f6e8] px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50'
                                 placeholder='Search...' />
                         </div> */}
-            <div className="w-[10%]">
+            <div className={`w-[10%] ${location.pathname === "/users" ? "block" : "hidden"}`}>
               <Popup
                 trigger={
                   <button className="px-[10px] py-[9px] w-full bg-[#304463] text-white rounded-[8px] flex items-center justify-center gap-[8px] text-[15px]">

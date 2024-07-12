@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import useAppStore from "../../store/AppStore";
 import Users from ".";
+import { commonUser } from "../../common/Common";
 
 function MaleUsers() {
-  const { getAuthenticatedUser, user, getUser } = useAppStore();
+  const { getAllUsers } = useAppStore();
+
+
+ 
   useEffect(() => {
-    getUser();
-  },[]);
-  console.log(user , "*******************************");
-  useEffect(() => {
-    getAuthenticatedUser(user.gender);
-  }, [getAuthenticatedUser]);
+    getAllUsers(commonUser().gender);
+  }, [getAllUsers]);
   return (
     <>
       <Users />

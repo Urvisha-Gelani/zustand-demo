@@ -8,8 +8,7 @@ interface deleteProps {
 }
 
 const Delete: React.FC<deleteProps> = ({ message, id, close, deleteUse }) => {
-
-    return (
+  return (
     <>
       <div className="text-center w-[100%] mx-auto">
         <p>{message}</p>

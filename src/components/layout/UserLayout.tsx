@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import SideBar from "./SideBar";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import useAppStore from "../../store/AppStore";
+// import useAppStore from "../../store/AppStore";
 
 function SigninUser() {
   const navigate = useNavigate();
-  const { getUser ,user } = useAppStore();
+  // const { getUser ,user } = useAppStore();
   
-  useEffect(() => {
-    getUser();
-  }, []);
-  console.log(user , "****userrrrrrrr******");
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+  // console.log(user , "****userrrrrrrr******");
   useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
       navigate("/Signin");

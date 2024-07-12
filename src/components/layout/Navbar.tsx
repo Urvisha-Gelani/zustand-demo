@@ -1,19 +1,20 @@
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegUser, FaUserCircle } from "react-icons/fa";
 import useAppStore from "../../store/AppStore";
 import { IoIosArrowDown, IoIosArrowUp, IoMdSettings } from "react-icons/io";
 import { ImSwitch } from "react-icons/im";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 import Delete from "../popup/Delete";
 
 function Navbar() {
   const [dropDown, setDropdown] = useState<boolean>(false);
   const { getUser, user } = useAppStore();
+  const navigate = useNavigate()
   const loggedInUser = Array.isArray(user) ? user[0] : user;
   const logout = () => {
     localStorage.removeItem("accessToken");
-    window.location.href = '/signin';
+    navigate("/")
   };
   const handleClick = () => {
     setDropdown(!dropDown);
@@ -82,7 +83,8 @@ function Navbar() {
                     message="Are you sure you want to log out?"
                     deleteUse={logout}
                   />
-                )) as unknown as ReactNode
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                )) as any
               }
             </Popup>
           </div>

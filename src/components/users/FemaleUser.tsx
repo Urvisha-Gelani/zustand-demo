@@ -4,14 +4,12 @@ import Users from ".";
 import { commonUser } from "../../common/Common";
 
 function FemaleUser() {
-  const { getAuthenticatedUser, user, getUser } = useAppStore();
+  const { getAllUsers } = useAppStore();
+
+  
   useEffect(() => {
-    getUser();
-  },[]);
-  console.log(commonUser().gender, "+*-/*-+-***************");
-  useEffect(() => {
-    getAuthenticatedUser(user.gender);
-  }, [getAuthenticatedUser]);
+    getAllUsers(commonUser().gender);
+  }, [getAllUsers]);
   return (
     <>
       <Users />

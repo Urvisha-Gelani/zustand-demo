@@ -4,8 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { LogInSchema } from "../../vallidation/errorsSchema";
 import useAppStore from "../../store/AppStore";
-// import { commonUser } from "../../common/Common";
-// import Spinner from '../Spinner/Spinner';
+import { commonUser } from "../../common/Common";
 
 export interface SigninValues {
   email_or_username: string;
@@ -17,7 +16,7 @@ const initialValues = {
   password: "",
 };
 function SignIn() {
-  const { signInUser, signUpData, clear_inputErrors, user } = useAppStore();
+  const { signInUser, signUpData, clear_inputErrors } = useAppStore();
 
   const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
@@ -32,10 +31,8 @@ function SignIn() {
 
   useEffect(() => {
     if (signUpData.success) {
-      // localStorage.setItem("User", JSON.stringify(user));
-      console.log( user  , "gender");
-      const PathUrl = user.gender == "M" ? "/Male_user" : "/Female_user";
-      console.log(PathUrl , "***PathUrl***");
+      const PathUrl = commonUser()?.gender === "F" ? "/female-user" : "/male-user";
+      console.log(PathUrl, "***PathUrl***");
       navigate(PathUrl);
     }
   }, [signUpData.success, navigate]);
@@ -68,7 +65,7 @@ function SignIn() {
                   <h1 className=" text-3xl font-bold">Sign in</h1>
                 </div>
                 <div className="">
-                  {signUpData.errors !== undefined ? (
+                  {!signUpData.success && signUpData.errors !== undefined ? (
                     <p className="text-red-600 mt-3">
                       {signUpData.errors.non_fields_errors}
                     </p>

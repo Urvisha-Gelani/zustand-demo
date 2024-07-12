@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BrowserRouter as Router,
   Routes,
@@ -16,87 +15,60 @@ import Companies from "./components/companiesPages/Companies";
 import CoNavbar from "./components/compnyLayout/CoNavbar";
 import CompanyProfile from "./components/compnyLayout";
 import Department from "./components/companiesPages/Department";
-// import MaleUsers from "./components/users/MaleUsers";
-// import FemaleUser from "./components/users/FemaleUser";
 import { commonUser } from "./common/Common";
-// import AuthenticatedUser from "./components/users/FemaleUser";
 import useAppStore from "./store/AppStore";
 import ProtectedRouter from "./components/protectedRouter/ProtectedRouter";
 import MaleUsers from "./components/users/MaleUsers";
 import FemaleUser from "./components/users/FemaleUser";
+import NoUserPage from "./components/errorPage/NoUserPage";
 
 function App() {
   const { user } = useAppStore();
+console.log(user);
+  const gender = commonUser()?.gender;
 
   return (
-    <>
-      <Router>
-        <Routes>
-          <Route path="/">
-            {/* <Route
+    <Router>
+      <Routes>
+        <Route path="/" element={<ProtectedRouter />}>
+          <Route path="/" element={<SigninUser />}>
+            <Route
               index
               element={
-                localStorage.getItem("accessToken") ? (
-                  <Navigate
-                    to={commonUser(x).gender == "M" ? "/Male_user" : "/Female_user"}
-                  />
-                ) : (
-                  <Navigate to="/Signin" />
-                )
+                <Navigate to={gender === "F" ? "/female-user" : "/male-user"} />
               }
-            /> */}
-            <Route path="Signin" element={<SignIn />} />
-            <Route path="Signup" element={<SignUp />} />
-            <Route path="/" element={<ProtectedRouter />}>
-              <Route path="/" element={<SigninUser />}>
-                <Route
-                 index
-                  element={
-                    <Navigate
-                      to={
-                      user?.gender === "F"
-                          ? "/Female_user"
-                          : "/Male_user"
-                      }
-                    />
-                  }
-                />
-                {user?.gender === "M" && (
-                  <Route path="/Male_user" element={<MaleUsers />} />
-                )}
-                 {user?.gender === "F" && (
-                  <Route path="/Female_user" element={<FemaleUser />} />
-                )}
-                {/* <Route index element={<AuthenticatedUser />} />
-                <Route
-                  path={user?.gender == "M" ? "/Male_user" : "/Female_user"}
-                  element={<AuthenticatedUser />}
-                /> */}
-                {/* <Route path="/Female_user" element={<FemaleUser />} /> */}
-                <Route path="/users" element={<Users />} />
-                <Route path="/companies" element={<Companies />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route
-                  path="/settings"
-                  element={
-                    <Update title="Update profile" data={commonUser()} />
-                  }
-                />
-              </Route>
-              <Route path="/companies/:companyId" element={<CoNavbar />}>
-                <Route index element={<CompanyProfile />} />
-                <Route
-                  path="/companies/:companyId/departments"
-                  element={<Department />}
-                />
-              </Route>
-            </Route>
-
-            <Route path="*" element={<NoPage />} />
+            />
+            <Route path="/users" element={<Users />} />
+            <Route path="/companies" element={<Companies />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/settings"
+              element={<Update title="Update profile" data={commonUser()} />}
+            />
+            {gender === "M" ? (
+              <Route path="/male-user" element={<MaleUsers />} />
+            ) : (
+              <Route path="/male-user" element={<NoUserPage />} />
+            )}
+            {gender === "F" ? (
+              <Route path="/female-user" element={<FemaleUser />} />
+            ) : (
+              <Route path="/female-user" element={<NoUserPage />} />
+            )}
           </Route>
-        </Routes>
-      </Router>
-    </>
+          <Route path="/companies/:companyId" element={<CoNavbar />}>
+            <Route index element={<CompanyProfile />} />
+            <Route
+              path="/companies/:companyId/departments"
+              element={<Department />}
+            />
+          </Route>
+        </Route>
+        <Route path="Signin" element={<SignIn />} />
+        <Route path="Signup" element={<SignUp />} />
+        <Route path="*" element={<NoPage />} />
+      </Routes>
+    </Router>
   );
 }
 

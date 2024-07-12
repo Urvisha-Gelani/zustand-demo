@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface User {
-  id: number;
+  id: number|string;
   username: string;
   first_name: string;
   last_name: string;
